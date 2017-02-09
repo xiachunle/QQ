@@ -2,24 +2,25 @@ package com.xiachunle.qq.activity;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.CountDownTimer;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 
 import com.xiachunle.qq.R;
-import com.xiachunle.qq.services.NormalLoadPicture;
 import com.xiachunle.qq.services.SharedHelper;
+import com.xiachunle.qq.util.FileUtil;
 import com.xiachunle.qq.widget.CountDownView;
 
 import java.io.ByteArrayOutputStream;
@@ -30,7 +31,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class WelcomeActivity extends BaseActivity {
+public class WelcomeActivity extends BaseActivity implements View.OnClickListener {
     private static final int TIMEFLAG = 0x0001;
     private static final int IMAGEFLAG = 0x0000;
     private static final String imageUrl = "http://xiachunle.com/images/kenan.jpg";
@@ -64,31 +65,29 @@ public class WelcomeActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_welcome);
         sh = new SharedHelper(getApplicationContext());
         //透明化状态栏和导航栏
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-        mCountDownView = (CountDownView) findViewById(R.id.id_countDown_text);
+        initView();
 
+
+    }
+
+    private void initData() {
         mCountDownView.setCountDownTimerListener(new CountDownView.CountDownTimerListener() {
             @Override
             public void onStatrtCount() {
             }
-
             @Override
             public void onFinishCount() {
-
             }
         });
         mCountDownView.start();
-
-        timeBtn = (Button) findViewById(R.id.id_countDown_btn);
-        startImage = (ImageView) findViewById(R.id.id_image);
-        startImage.setBackgroundColor(getColor(R.color.red));
-        if(isNetWorkAvailable(getApplicationContext())){
-            saveedBitmap=null;
-        }else {
+        if (FileUtil.isNetWorkAvailable(getApplicationContext())) {
+            saveedBitmap = null;
+        } else {
             saveedBitmap = sh.getBitmap();
         }
         if (saveedBitmap == null) {
@@ -104,12 +103,23 @@ public class WelcomeActivity extends BaseActivity {
                 message.obj = l;
                 timeHandler.sendMessage(message);
             }
-
             @Override
             public void onFinish() {
-
+                startActivity(new Intent(WelcomeActivity.this, LaunchActivity.class));
+                WelcomeActivity.this.finish();
             }
         }.start();
+    }
+
+    private void initView() {
+        mCountDownView = (CountDownView) findViewById(R.id.id_countDown_text);
+        timeBtn = (Button) findViewById(R.id.id_countDown_btn);
+        startImage = (ImageView) findViewById(R.id.id_image);
+
+        timeBtn.setOnClickListener(this);
+        mCountDownView.setOnClickListener(this);
+        initData();
+
     }
 
     Runnable runnable = new Runnable() {
@@ -158,17 +168,14 @@ public class WelcomeActivity extends BaseActivity {
 
     }
 
-    private static boolean isNetWorkAvailable(Context context) {
-        ConnectivityManager connectivity = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (connectivity != null) {
-            NetworkInfo info = connectivity.getActiveNetworkInfo();
-            if (info != null) {
-                if (info.getState() == NetworkInfo.State.CONNECTED) {
-                    return true;
-                }
-            }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.id_countDown_text || view.getId() == R.id.id_countDown_btn) {
+            startActivity(new Intent(WelcomeActivity.this, LaunchActivity.class));
+            WelcomeActivity.this.finish();
         }
-        return false;
     }
+
 
 }
