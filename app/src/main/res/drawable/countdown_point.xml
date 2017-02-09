@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:useLevel="false">
+    <corners android:radius="360dip" />
+    <!--<padding-->
+        <!--android:bottom="20dp"-->
+        <!--android:left="20dp"-->
+        <!--android:right="20dp"-->
+        <!--android:top="20dp" />-->
+    <solid android:color="@color/countBackGroundColor" />
+
+</shape>

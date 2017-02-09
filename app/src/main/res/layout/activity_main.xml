@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    tools:context="com.xiachunle.qq.activity.MainActivity">
+
+    <ImageView
+        android:id="@+id/id_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#EE7621"
+        android:clipToPadding="true"
+        android:fitsSystemWindows="true" />
+
+    <Button
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/countdown_point"
+        android:id="@+id/id_countDown_btn"
+        android:textSize="12sp"
+        android:gravity="center"
+        android:textColor="@color/countTextColor"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="50dp"
+        />
+    <com.xiachunle.qq.widget.CountDownView
+        android:layout_marginBottom="50dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/id_countDown_text"
+        android:layout_width="55dp"
+        android:layout_height="55dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        app:background_color="@color/countBackGroundColor"
+        app:border_color="@color/ccountBorderColor"
+        app:border_width="2dp"
+        app:text_color="@color/countTextColor"
+        app:text_size="12sp" />
+</RelativeLayout>
