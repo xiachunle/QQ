@@ -30,7 +30,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class MainActivity extends BaseActivity {
+public class WelcomeActivity extends BaseActivity {
     private static final int TIMEFLAG = 0x0001;
     private static final int IMAGEFLAG = 0x0000;
     private static final String imageUrl = "http://xiachunle.com/images/kenan.jpg";
